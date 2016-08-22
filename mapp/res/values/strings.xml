@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">mapp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="pic">示例图片</string>
+    <string name="_showpic">显示图片</string>
+
+</resources>
