@@ -25,7 +25,7 @@ public class ViewInjectUtils
 
 
 	/**
-	 * ×¢ÈëËùÓĞµÄ¿Ø¼ş
+	 * æ³¨å…¥æ‰€æœ‰çš„æ§ä»¶
 	 * 
 	 * @param activity
 	 */
@@ -33,7 +33,7 @@ public class ViewInjectUtils
 	{
 		Class<? extends Activity> clazz = activity.getClass();
 		Field[] fields = clazz.getDeclaredFields();
-		// ±éÀúËùÓĞ³ÉÔ±±äÁ¿
+		// éå†æ‰€æœ‰æˆå‘˜å˜é‡
 		for (Field field : fields)
 		{
 			Log.e("TAG", field.getName()+"");
@@ -45,7 +45,7 @@ public class ViewInjectUtils
 				if (viewId != -1)
 				{
 					Log.e("TAG", viewId+"");
-					// ³õÊ¼»¯View
+					// åˆå§‹åŒ–View
 					try
 					{
 						Method method = clazz.getMethod(METHOD_FIND_VIEW_BY_ID,
@@ -66,16 +66,16 @@ public class ViewInjectUtils
 	}
 
 	/**
-	 * ×¢ÈëÖ÷²¼¾ÖÎÄ¼ş
+	 * æ³¨å…¥ä¸»å¸ƒå±€æ–‡ä»¶
 	 * 
 	 * @param activity
 	 */
 	private static void injectContentView(Activity activity)
 	{
 		Class<? extends Activity> clazz = activity.getClass();
-		// ²éÑ¯ÀàÉÏÊÇ·ñ´æÔÚContentView×¢½â
+		// æŸ¥è¯¢ç±»ä¸Šæ˜¯å¦å­˜åœ¨ContentViewæ³¨è§£
 		ContentView contentView = clazz.getAnnotation(ContentView.class);
-		if (contentView != null)// ´æÔÚ
+		if (contentView != null)// å­˜åœ¨
 		{
 			int contentViewLayoutId = contentView.value();
 			try

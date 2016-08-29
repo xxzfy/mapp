@@ -2,11 +2,17 @@ package com.zhao.mapp.http;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.squareup.okhttp.Cache;
@@ -21,6 +27,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.zhao.mapp.interfaces.ProgressRequestListener;
 import com.zhao.mapp.interfaces.ProgressResponseListener;
+import com.zhao.mapp.tools.MApplication;
 
 public class OkHttpClientManager {
 	private static String TAG = "OkHttpClientManager";
@@ -444,7 +451,7 @@ public class OkHttpClientManager {
 	 * @param path
 	 * @return
 	 */
-	public static void downloadFile(String url, String dir) {
+	public static void asyncDownloadFile(String url, String dir) {
 		getInstance()._downloadNotProgeress(url, dir);
 	}
 	
@@ -453,8 +460,46 @@ public class OkHttpClientManager {
 	 * @param path
 	 * @return
 	 */
-	public static void downloadFile(String url, String dir, ProgressBar downloadProgress) {
+	public static void asyncDownloadFile(String url, String dir, ProgressBar downloadProgress) {
 		getInstance()._downloadShowProgeress(url, dir, downloadProgress);
 	}
+	/**
+	 * 获取网络图片
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	public static Bitmap syncDownLoadImage(String url) throws IOException{
+		InputStream is= getInstance()._syncGet(url).body().byteStream();
+		Bitmap btmap=BitmapFactory.decodeStream(is);
+		return btmap;
+	}
+	/**
+	 * 加载网络图片
+	 * @param url
+	 * @param iv
+	 */
+	public static void displayImage(String url,final ImageView iv){
+//		String imagename=url.substring(url.lastIndexOf("/"));
+//		File file=new File(MApplication.imageCachePath+imagename);
 
+		getInstance()._asyncGet(url, new Callback() {
+			@Override
+			public void onResponse(Response resp) throws IOException {
+				 InputStream is= resp.body().byteStream();
+				 if(is !=null){
+					 BitmapDrawable bd=new BitmapDrawable(is);
+					 iv.setImageDrawable(bd);
+				 }else{
+					 MApplication.showToastShort("未找到图片");
+				 }
+			}
+			
+			@Override
+			public void onFailure(Request arg0, IOException arg1) {
+				MApplication.showToastShort("图片加载失败！");
+			}
+		});
+	
+	}
 }

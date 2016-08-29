@@ -10,187 +10,181 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 
 /**
- * Created by zhy on 15/11/6.
+ * @author zhyp
  */
-public class ImageUtils
-{
-    /**
-     * ¸ù¾İInputStream»ñÈ¡Í¼Æ¬Êµ¼ÊµÄ¿í¶ÈºÍ¸ß¶È
-     *
-     * @param imageStream
-     * @return
-     */
-    public static ImageSize getImageSize(InputStream imageStream)
-    {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(imageStream, null, options);
-        return new ImageSize(options.outWidth, options.outHeight);
-    }
+public class ImageUtils {
+	private static final String TAG="ImageUtils";
+	private static class MHolder{
+		private static final ImageUtils INSTANCE=new ImageUtils();
+	}
+	public ImageUtils() {
+	}
+	public static ImageUtils getInstance(){
+		return MHolder.INSTANCE;
+	}
+	/**
+	 * åŠ è½½å›¾ç‰‡
+	 * @param iv
+	 * @param is
+	 */
+	public static void displayImage(ImageView iv,InputStream is) {
+		
 
-    public static class ImageSize
-    {
-        int width;
-        int height;
+	}
+	/**
+	 * æ ¹æ®InputStreamè·å–å›¾ç‰‡å®é™…çš„å®½åº¦å’Œé«˜åº¦
+	 * 
+	 * @param imageStream
+	 * @return
+	 */
+	public static ImageSize getImageSize(InputStream imageStream) {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeStream(imageStream, null, options);
+		return new ImageSize(options.outWidth, options.outHeight);
+	}
 
-        public ImageSize()
-        {
-        }
+	public static class ImageSize {
+		int width;
+		int height;
 
-        public ImageSize(int width, int height)
-        {
-            this.width = width;
-            this.height = height;
-        }
+		public ImageSize() {
+		}
 
-        @Override
-        public String toString()
-        {
-            return "ImageSize{" +
-                    "width=" + width +
-                    ", height=" + height +
-                    '}';
-        }
-    }
+		public ImageSize(int width, int height) {
+			this.width = width;
+			this.height = height;
+		}
 
-    public static int calculateInSampleSize(ImageSize srcSize, ImageSize targetSize)
-    {
-        // Ô´Í¼Æ¬µÄ¿í¶È
-        int width = srcSize.width;
-        int height = srcSize.height;
-        int inSampleSize = 1;
+		@Override
+		public String toString() {
+			return "ImageSize{" + "width=" + width + ", height=" + height + '}';
+		}
+	}
 
-        int reqWidth = targetSize.width;
-        int reqHeight = targetSize.height;
+	public static int calculateInSampleSize(ImageSize srcSize, ImageSize targetSize) {
+		// æºå›¾ç‰‡çš„å®½åº¦
+		int width = srcSize.width;
+		int height = srcSize.height;
+		int inSampleSize = 1;
 
-        if (width > reqWidth && height > reqHeight)
-        {
-            // ¼ÆËã³öÊµ¼Ê¿í¶ÈºÍÄ¿±ê¿í¶ÈµÄ±ÈÂÊ
-            int widthRatio = Math.round((float) width / (float) reqWidth);
-            int heightRatio = Math.round((float) height / (float) reqHeight);
-            inSampleSize = Math.max(widthRatio, heightRatio);
-        }
-        return inSampleSize;
-    }
+		int reqWidth = targetSize.width;
+		int reqHeight = targetSize.height;
 
-    /**
-     * ¸ù¾İImageView»ñÊÊµ±µÄÑ¹ËõµÄ¿íºÍ¸ß
-     *
-     * @param view
-     * @return
-     */
-    public static ImageSize getImageViewSize(View view)
-    {
+		if (width > reqWidth && height > reqHeight) {
+			// è®¡ç®—å‡ºå®é™…å®½åº¦å’Œç›®æ ‡å®½åº¦çš„æ¯”ç‡
+			int widthRatio = Math.round((float) width / (float) reqWidth);
+			int heightRatio = Math.round((float) height / (float) reqHeight);
+			inSampleSize = Math.max(widthRatio, heightRatio);
+		}
+		return inSampleSize;
+	}
 
-        ImageSize imageSize = new ImageSize();
+	/**
+	 * æ ¹æ®ImageViewè·é€‚å½“çš„å‹ç¼©çš„å®½å’Œé«˜
+	 * 
+	 * @param view
+	 * @return
+	 */
+	public static ImageSize getImageViewSize(View view) {
 
-        imageSize.width = getExpectWidth(view);
-        imageSize.height = getExpectHeight(view);
+		ImageSize imageSize = new ImageSize();
 
-        return imageSize;
-    }
+		imageSize.width = getExpectWidth(view);
+		imageSize.height = getExpectHeight(view);
 
-    /**
-     * ¸ù¾İview»ñµÃÆÚÍûµÄ¸ß¶È
-     *
-     * @param view
-     * @return
-     */
-    private static int getExpectHeight(View view)
-    {
+		return imageSize;
+	}
 
-        int height = 0;
-        if (view == null) return 0;
+	/**
+	 * æ ¹æ®viewè·å¾—æœŸæœ›çš„é«˜åº¦
+	 * 
+	 * @param view
+	 * @return
+	 */
+	private static int getExpectHeight(View view) {
 
-        final ViewGroup.LayoutParams params = view.getLayoutParams();
-        //Èç¹ûÊÇWRAP_CONTENT£¬´ËÊ±Í¼Æ¬»¹Ã»¼ÓÔØ£¬getWidth¸ù±¾ÎŞĞ§
-        if (params != null && params.height != ViewGroup.LayoutParams.WRAP_CONTENT)
-        {
-            height = view.getWidth(); // »ñµÃÊµ¼ÊµÄ¿í¶È
-        }
-        if (height <= 0 && params != null)
-        {
-            height = params.height; // »ñµÃ²¼¾ÖÎÄ¼şÖĞµÄÉùÃ÷µÄ¿í¶È
-        }
+		int height = 0;
+		if (view == null)
+			return 0;
 
-        if (height <= 0)
-        {
-            height = getImageViewFieldValue(view, "mMaxHeight");// »ñµÃÉèÖÃµÄ×î´óµÄ¿í¶È
-        }
+		final ViewGroup.LayoutParams params = view.getLayoutParams();
+		// å¦‚æœæ˜¯WRAP_CONTENTï¼Œæ­¤æ—¶å›¾ç‰‡è¿˜æ²¡åŠ è½½ï¼ŒgetWidthæ ¹æœ¬æ— æ•ˆ
+		if (params != null && params.height != ViewGroup.LayoutParams.WRAP_CONTENT) {
+			height = view.getWidth(); // è·å¾—å®é™…çš„å®½åº¦
+		}
+		if (height <= 0 && params != null) {
+			height = params.height; // è·å¾—å¸ƒå±€æ–‡ä»¶ä¸­çš„å£°æ˜çš„å®½åº¦
+		}
 
-        //Èç¹û¿í¶È»¹ÊÇÃ»ÓĞ»ñÈ¡µ½£¬±ï´óÕĞ£¬Ê¹ÓÃÆÁÄ»µÄ¿í¶È
-        if (height <= 0)
-        {
-            DisplayMetrics displayMetrics = view.getContext().getResources()
-                    .getDisplayMetrics();
-            height = displayMetrics.heightPixels;
-        }
+		if (height <= 0) {
+			height = getImageViewFieldValue(view, "mMaxHeight");// è·å¾—è®¾ç½®çš„æœ€å¤§çš„å®½åº¦
+		}
 
-        return height;
-    }
+		// å¦‚æœå®½åº¦è¿˜æ˜¯æ²¡æœ‰è·å–åˆ°ï¼Œæ†‹å¤§æ‹›ï¼Œä½¿ç”¨å±å¹•çš„å®½åº¦
+		if (height <= 0) {
+			DisplayMetrics displayMetrics = view.getContext().getResources().getDisplayMetrics();
+			height = displayMetrics.heightPixels;
+		}
 
-    /**
-     * ¸ù¾İview»ñµÃÆÚÍûµÄ¿í¶È
-     *
-     * @param view
-     * @return
-     */
-    private static int getExpectWidth(View view)
-    {
-        int width = 0;
-        if (view == null) return 0;
+		return height;
+	}
 
-        final ViewGroup.LayoutParams params = view.getLayoutParams();
-        //Èç¹ûÊÇWRAP_CONTENT£¬´ËÊ±Í¼Æ¬»¹Ã»¼ÓÔØ£¬getWidth¸ù±¾ÎŞĞ§
-        if (params != null && params.width != ViewGroup.LayoutParams.WRAP_CONTENT)
-        {
-            width = view.getWidth(); // »ñµÃÊµ¼ÊµÄ¿í¶È
-        }
-        if (width <= 0 && params != null)
-        {
-            width = params.width; // »ñµÃ²¼¾ÖÎÄ¼şÖĞµÄÉùÃ÷µÄ¿í¶È
-        }
+	/**
+	 * æ ¹æ®viewè·å¾—æœŸæœ›çš„å®½åº¦
+	 * 
+	 * @param view
+	 * @return
+	 */
+	private static int getExpectWidth(View view) {
+		int width = 0;
+		if (view == null)
+			return 0;
 
-        if (width <= 0)
+		final ViewGroup.LayoutParams params = view.getLayoutParams();
+		// å¦‚æœæ˜¯WRAP_CONTENTï¼Œæ­¤æ—¶å›¾ç‰‡è¿˜æ²¡åŠ è½½ï¼ŒgetWidthæ ¹æœ¬æ— æ•ˆ
+		if (params != null && params.width != ViewGroup.LayoutParams.WRAP_CONTENT) {
+			width = view.getWidth(); // è·å¾—å®é™…çš„å®½åº¦
+		}
+		if (width <= 0 && params != null) {
+			width = params.width; // è·å¾—å¸ƒå±€æ–‡ä»¶ä¸­çš„å£°æ˜çš„å®½åº¦
+		}
 
-        {
-            width = getImageViewFieldValue(view, "mMaxWidth");// »ñµÃÉèÖÃµÄ×î´óµÄ¿í¶È
-        }
-        //Èç¹û¿í¶È»¹ÊÇÃ»ÓĞ»ñÈ¡µ½£¬±ï´óÕĞ£¬Ê¹ÓÃÆÁÄ»µÄ¿í¶È
-        if (width <= 0)
+		if (width <= 0)
 
-        {
-            DisplayMetrics displayMetrics = view.getContext().getResources()
-                    .getDisplayMetrics();
-            width = displayMetrics.widthPixels;
-        }
+		{
+			width = getImageViewFieldValue(view, "mMaxWidth");// è·å¾—è®¾ç½®çš„æœ€å¤§çš„å®½åº¦
+		}
+		// å¦‚æœå®½åº¦è¿˜æ˜¯æ²¡æœ‰è·å–åˆ°ï¼Œæ†‹å¤§æ‹›ï¼Œä½¿ç”¨å±å¹•çš„å®½åº¦
+		if (width <= 0)
 
-        return width;
-    }
+		{
+			DisplayMetrics displayMetrics = view.getContext().getResources().getDisplayMetrics();
+			width = displayMetrics.widthPixels;
+		}
 
-    /**
-     * Í¨¹ı·´Éä»ñÈ¡imageviewµÄÄ³¸öÊôĞÔÖµ
-     *
-     * @param object
-     * @param fieldName
-     * @return
-     */
-    private static int getImageViewFieldValue(Object object, String fieldName)
-    {
-        int value = 0;
-        try
-        {
-            Field field = ImageView.class.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            int fieldValue = field.getInt(object);
-            if (fieldValue > 0 && fieldValue < Integer.MAX_VALUE)
-            {
-                value = fieldValue;
-            }
-        } catch (Exception e)
-        {
-        }
-        return value;
+		return width;
+	}
 
-    }
+	/**
+	 * é€šè¿‡åå°„è·å–imageviewçš„æŸä¸ªå±æ€§å€¼
+	 * 
+	 * @param object
+	 * @param fieldName
+	 * @return
+	 */
+	private static int getImageViewFieldValue(Object object, String fieldName) {
+		int value = 0;
+		try {
+			Field field = ImageView.class.getDeclaredField(fieldName);
+			field.setAccessible(true);
+			int fieldValue = field.getInt(object);
+			if (fieldValue > 0 && fieldValue < Integer.MAX_VALUE) {
+				value = fieldValue;
+			}
+		} catch (Exception e) {
+		}
+		return value;
+
+	}
 }

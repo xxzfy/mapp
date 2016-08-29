@@ -1,19 +1,31 @@
 package com.zhao.mapp.tools;
 
+import java.io.File;
+
+import android.app.AlertDialog;
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.zhao.mapp.greendao.DaoMaster;
 import com.zhao.mapp.greendao.DaoMaster.OpenHelper;
 import com.zhao.mapp.greendao.DaoSession;
+import com.zhao.mapp.pic.ImageUtils;
 
 public class MApplication extends Application {
 	private static final String TAG = "MApplication";
 	public static MHandler mHandler;
 	private static DaoMaster daoMaster;
 	private static DaoSession daoSession;
+	private static ImageUtils imageUtils;
 	public static SQLiteDatabase db;
+	private static boolean confirm_res=true;
+	//图片缓存路径
+	public static String imageCachePath=Environment.getDownloadCacheDirectory().getAbsolutePath()+File.separator+"mapp_cache"+File.separator;
 	// 数据库名，表名是自动被创建的
 	public static final String DB_NAME = "dbname.db";
 
@@ -35,6 +47,10 @@ public class MApplication extends Application {
 		CrashHandler crashHandler = CrashHandler.getInstance();
 		crashHandler.init(getApplicationContext(), this);
 		this.mHandler = new MHandler(getApplicationContext());
+		//初始化数据库操作类
+		getDaoSession(getInstance());
+		imageUtils=ImageUtils.getInstance();
+		
 	}
 
 	/**
@@ -49,7 +65,8 @@ public class MApplication extends Application {
 	public static DaoMaster getDaoMaster(Context context) {
 		if (daoMaster == null) {
 			OpenHelper helper = new DaoMaster.DevOpenHelper(context, DB_NAME, null);
-			daoMaster = new DaoMaster(helper.getWritableDatabase());
+			db= helper.getWritableDatabase();
+			daoMaster = new DaoMaster(db);
 		}
 		return daoMaster;
 	}
@@ -73,4 +90,26 @@ public class MApplication extends Application {
 		}
 		return db;
 	}
+	/**
+	 * 显示提示
+	 * @param msg
+	 */
+	public static void showToastShort(String msg){
+		Toast.makeText(getInstance(), msg, Toast.LENGTH_SHORT).show();
+	}
+	/**
+	 * 显示提示
+	 * @param msg
+	 */
+	public static void showToastLong(String msg){
+		Toast.makeText(getInstance(), msg, Toast.LENGTH_LONG).show();
+	}
+	/**
+	 * 提示对话框
+	 * @param msg
+	 */
+	public static void showTipsDialog(String msg){
+		new AlertDialog.Builder(getInstance()).setTitle("提示").setMessage(msg).setNegativeButton("关闭", null).show();
+	}
+	
 }
