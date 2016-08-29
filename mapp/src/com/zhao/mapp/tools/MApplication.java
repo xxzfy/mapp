@@ -4,11 +4,10 @@ import java.io.File;
 
 import android.app.AlertDialog;
 import android.app.Application;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.zhao.mapp.greendao.DaoMaster;
