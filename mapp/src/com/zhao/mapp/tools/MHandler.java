@@ -2,7 +2,6 @@ package com.zhao.mapp.tools;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
 

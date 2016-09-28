@@ -1,4 +1,4 @@
-package com.zhao.mapp.tools;
+package com.zhao.mapp;
 
 import java.io.File;
 
@@ -7,36 +7,42 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.zhao.mapp.greendao.DaoMaster;
 import com.zhao.mapp.greendao.DaoMaster.OpenHelper;
 import com.zhao.mapp.greendao.DaoSession;
 import com.zhao.mapp.pic.ImageUtils;
+import com.zhao.mapp.tools.CrashHandler;
+import com.zhao.mapp.tools.DBHelper;
 
 public class MApplication extends Application {
-	private static final String TAG = "MApplication";
-	public static MHandler mHandler;
 	private static DaoMaster daoMaster;
 	private static DaoSession daoSession;
+	private static DBHelper dbHelper;
 	private static ImageUtils imageUtils;
 	public static SQLiteDatabase db;
 	private static boolean confirm_res=true;
+	private static  MApplication INSTANCE;
 	//图片缓存路径
 	public static String imageCachePath=Environment.getDownloadCacheDirectory().getAbsolutePath()+File.separator+"mapp_cache"+File.separator;
 	// 数据库名，表名是自动被创建的
 	public static final String DB_NAME = "dbname.db";
 
-	private static class MHolder {
-		private static final MApplication INSTANCE = new MApplication();
-	}
-
 	public static MApplication getInstance() {
-		return MHolder.INSTANCE;
+		if(INSTANCE==null){
+			synchronized (ACCESSIBILITY_SERVICE) {
+				if (INSTANCE == null) {
+					INSTANCE = new MApplication();
+				}
+			}
+		}
+		return INSTANCE;
 	}
 
 	public MApplication() {
+		super();
+		INSTANCE=this;
 	}
 
 	@Override
@@ -45,10 +51,12 @@ public class MApplication extends Application {
 		// 启用全局异常捕获
 		CrashHandler crashHandler = CrashHandler.getInstance();
 		crashHandler.init(getApplicationContext(), this);
-		this.mHandler = new MHandler(getApplicationContext());
 		//初始化数据库操作类
-		getDaoSession(getInstance());
+		getDaoSession();
+		getDbHelper();
+		dbHelper=DBHelper.getInstance(getInstance());
 		imageUtils=ImageUtils.getInstance();
+		INSTANCE=this;
 		
 	}
 
@@ -70,25 +78,33 @@ public class MApplication extends Application {
 		return daoMaster;
 	}
 
-	public static DaoSession getDaoSession(Context context) {
+	public static DaoSession getDaoSession() {
 		if (daoSession == null) {
 			if (daoMaster == null) {
-				daoMaster = getDaoMaster(context);
+				daoMaster = getDaoMaster(getInstance());
 			}
 			daoSession = daoMaster.newSession();
 		}
 		return daoSession;
 	}
 
-	public static SQLiteDatabase getSQLDatebase(Context context) {
+	public static SQLiteDatabase getSQLDatebase() {
 		if (daoSession == null) {
 			if (daoMaster == null) {
-				daoMaster = getDaoMaster(context);
+				daoMaster = getDaoMaster(getInstance());
 			}
 			db = daoMaster.getDatabase();
 		}
 		return db;
 	}
+	public static DBHelper getDbHelper() {
+		if (dbHelper == null) {
+			dbHelper = DBHelper.getInstance(getInstance());
+		}
+		return dbHelper;
+	}
+	
+	
 	/**
 	 * 显示提示
 	 * @param msg

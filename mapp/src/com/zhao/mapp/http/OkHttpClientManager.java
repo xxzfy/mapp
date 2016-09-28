@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
@@ -25,9 +24,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.zhao.mapp.MApplication;
 import com.zhao.mapp.interfaces.ProgressRequestListener;
 import com.zhao.mapp.interfaces.ProgressResponseListener;
-import com.zhao.mapp.tools.MApplication;
 
 public class OkHttpClientManager {
 	private static String TAG = "OkHttpClientManager";
@@ -38,7 +37,7 @@ public class OkHttpClientManager {
 	}
 
 	public OkHttpClientManager() {
-		this.client = new OkHttpClient();
+		OkHttpClientManager.client = new OkHttpClient();
 		// 设置缓存
 		int cachesize = 10 * 1024 * 1024;
 		Environment.getDownloadCacheDirectory();

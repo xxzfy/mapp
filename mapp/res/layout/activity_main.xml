@@ -2,30 +2,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}" >
+    tools:context="com.zhao.mapp.MainActivity" >
+	<include layout="@layout/main_plan_user_info"/>
+	<GridLayout
+        android:id="@+id/lv_main_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:alignmentMode="alignMargins"
+        android:background="@color/DARK"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:useDefaultMargins="true" >
 
-    <TextView
-        android:id="@+id/tv_msg"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:gravity="left"
-        android:text="@string/hello_world" />
-    <Button 
-        android:id="@+id/btn_showpic"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="@string/_showpic"
-        android:layout_toRightOf="@id/tv_msg"
-        android:layout_marginLeft="10dp"
-        />
-   <ImageView
-        android:id="@+id/iv_test"
-   		android:layout_width="fill_parent"
-   		android:layout_height="wrap_content"
-   		android:layout_below="@id/tv_msg"
-   		android:src="@drawable/ic_launcher" 
-   		android:background="@android:color/holo_green_dark"
-   		android:scaleType="center"
-   		android:contentDescription="@string/pic"
-   		/>
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+
+        <include layout="@layout/main_grid_item" />
+    </GridLayout>
+    
 </RelativeLayout>

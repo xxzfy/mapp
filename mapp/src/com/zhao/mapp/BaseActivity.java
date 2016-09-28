@@ -3,10 +3,7 @@ package com.zhao.mapp;
 import java.io.IOException;
 
 import com.zhao.mapp.http.OkHttpClientManager;
-import com.zhao.mapp.pic.ImageUtils;
-import com.zhao.mapp.tools.MApplication;
 
-import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
