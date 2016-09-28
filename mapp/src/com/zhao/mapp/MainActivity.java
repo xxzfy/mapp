@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity{
 	private TextView tv_msg;
 	private ImageView iv_test;
 	private Button btn_showpic;
@@ -26,6 +26,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //			"http://imgnews.gmw.cn/attachement/jpg/site2/20160830/7164863972643588751.jpg",
 //			"http://imgnews.gmw.cn/attachement/jpg/site2/20160830/4422434320192586386.jpg"
 //		};
+	}
+	@Override
+	protected void initEvent() {
+		// TODO Auto-generated method stub
+		
 	}
 	/**
 	 * 点击事件
@@ -47,4 +52,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 			break;
 		}
 	}
+
+	
 }

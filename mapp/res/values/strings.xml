@@ -7,8 +7,11 @@
     <string name="_showpic">显示图片</string>
     <string name="title_activity_login">登录</string>
     <string name="_logintitle">用户登录</string>
-    <string name="title_activity_fast_login">快速登录</string>
+    <string name="title_activity_fast_login11">快速登录</string>
     <string name="back_popu_login">返回普通登录</string>
+    <string name="input_loginname">请输入用户名</string>
     <string name="input_password">请输入密码</string>
+    <string name="title_activity_fast_login">FastLoginActivity</string>
+    <string name="_fastlogin">设置快捷登录</string>
 
 </resources>

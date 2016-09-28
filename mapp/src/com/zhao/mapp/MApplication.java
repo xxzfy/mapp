@@ -24,6 +24,7 @@ public class MApplication extends Application {
 	public static SQLiteDatabase db;
 	private static boolean confirm_res=true;
 	private static  MApplication INSTANCE;
+	public static boolean isfastok=false;
 	//图片缓存路径
 	public static String imageCachePath=Environment.getDownloadCacheDirectory().getAbsolutePath()+File.separator+"mapp_cache"+File.separator;
 	// 数据库名，表名是自动被创建的

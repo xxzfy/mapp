@@ -49,4 +49,18 @@
 	        android:text="登录"
 	        />
 	</LinearLayout>
+	<TextView 
+	    android:id="@+id/tv_login_tofastlogin"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:layout_alignParentTop="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="20dp"
+	    android:layout_marginRight="30dp"
+	    android:text="快捷登录"
+	    android:textSize="18sp"
+	    android:textStyle="italic"
+	    android:textColor="@color/BLUE"
+	    />
 </RelativeLayout>

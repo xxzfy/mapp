@@ -13,8 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-public class BaseActivity extends Activity implements View.OnClickListener{
+public abstract class BaseActivity extends Activity implements View.OnClickListener{
 	protected String TAG="BaseActivity";
 	protected LruCache<String, Bitmap> mMemoryCache;
 	protected ProgressBar pb;
@@ -33,13 +34,10 @@ public class BaseActivity extends Activity implements View.OnClickListener{
 		};
 		pb=new ProgressBar(this);
 	}
-	
-	@Override
-	public void onClick(View view) {
-		MApplication.showTipsDialog("你点击的BaseActivity");
-	}
-	
-	
+	/**
+	 * 绑定事件
+	 */
+	protected abstract void initEvent();
 	protected void displayNetImage(ImageView iv,String url){
 		Bitmap bmap=mMemoryCache.get(url);
 		if(bmap==null){
@@ -113,7 +111,19 @@ public class BaseActivity extends Activity implements View.OnClickListener{
 			}
 			return bm;
 		}
-		
-		
+	}
+	/**
+	 * 显示提示信息
+	 * @param msg
+	 */
+	protected void showToastMsgShort(String msg){
+		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+	}
+	/**
+	 * 显示提示信息
+	 * @param msg
+	 */
+	protected void showToastMsgLong(String msg){
+		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 	}
 }

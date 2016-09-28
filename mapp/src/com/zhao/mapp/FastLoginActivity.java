@@ -30,41 +30,38 @@ public class FastLoginActivity extends BaseActivity{
 	private LocusPassWordView lpv_fast_loginpassword;
 	
 	private String mPassword = "";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ViewInjectUtils.inject(this);
 		initEvent();
+		setResult(RESULT_CANCELED);
 	}
 
 	/**
 	 * 绑定事件
 	 */
+	@Override
 	public void initEvent() {
 		lpv_fast_loginpassword.setOnCompleteListener(new MyLocusCompleteListener());
-		btn_fast_login_setfast.setOnClickListener(new MyViewClickListener());
+		btn_fast_login_setfast.setOnClickListener(this);
 		
 	}
 
-	class MyViewClickListener implements View.OnClickListener{
-
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.btn_fast_login_setfast:
-				if(lpv_fast_loginpassword.isShown()){
-					lpv_fast_loginpassword.setVisibility(View.GONE);
-				}else{
-					lpv_fast_loginpassword.setVisibility(View.VISIBLE);
-				}
-				
-				break;
-
-			default:
-				break;
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_fast_login_setfast:
+			if(lpv_fast_loginpassword.isShown()){
+				lpv_fast_loginpassword.setVisibility(View.GONE);
+			}else{
+				lpv_fast_loginpassword.setVisibility(View.VISIBLE);
 			}
 			
+			break;
+
+		default:
+			break;
 		}
 		
 	}
@@ -74,11 +71,11 @@ public class FastLoginActivity extends BaseActivity{
 		public void onComplete(String password) {
 
 			SharedPreferencesHelper sph = SharedPreferencesHelper.getInstance(getApplicationContext());
-			String pwd = sph.getString("password", "");
+			String pwd = sph.getString("fastpassword", "");
 			Md5Utils md5 = new Md5Utils();
 			boolean passed = false;
 			if (pwd.length() == 0) {
-				sph.putString("password", md5.toMd5(password, ""));
+				sph.putString("fastpassword", md5.toMd5(password, ""));
 				Toast.makeText(getApplicationContext(), "密码已设置", Toast.LENGTH_LONG).show();
 				return;
 			} else {
@@ -91,16 +88,19 @@ public class FastLoginActivity extends BaseActivity{
 			}
 
 			if (passed) {
-				Log.d("hcj", "密码正确!");
+				Log.d(TAG, "密码正确!");
 				Toast.makeText(getApplicationContext(), "密码验证通过", Toast.LENGTH_LONG).show();
-				finish();
+				MApplication.isfastok=true;
+				setResult(RESULT_OK);
+				FastLoginActivity.this.finish();
 			}else{
-				Log.d("hcj", "密码错误!");
+				Log.d(TAG, "密码错误!");
 				Toast.makeText(getApplicationContext(), "密码验证失败", Toast.LENGTH_SHORT).show();
 			}
 
 		}
 		
 	}
+	
 	
 }
