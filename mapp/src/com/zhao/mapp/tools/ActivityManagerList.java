@@ -9,21 +9,31 @@ import android.app.Activity;
  *
  */
 public class ActivityManagerList {
-	private static List<Activity> activityList = new ArrayList<Activity>();
+	static class MHolder{
+		private static ActivityManagerList INSTANCE=new ActivityManagerList();
+	}
+	private List<Activity> activityList = new ArrayList<Activity>();
+	public ActivityManagerList() {
+		// TODO Auto-generated constructor stub
+	}
 	
+	public static ActivityManagerList getInstance(){
+		return MHolder.INSTANCE;
+	}
 	public static void remove(Activity activity) {
-		activityList.remove(activity);
+		getInstance().activityList.remove(activity);
 	}
 
 	public static void add(Activity activity) {
-		activityList.add(activity);
+		getInstance().activityList.add(activity);
 	}
 
 	/**
 	 * 释放进程,并关闭程序
 	 */
 	public static void finishProgram() {
-		for (Activity activity : activityList) {
+		List<Activity> acList=getInstance().activityList;
+		for (Activity activity : acList) {
 			activity.finish();
 		}
 		android.os.Process.killProcess(android.os.Process.myPid());

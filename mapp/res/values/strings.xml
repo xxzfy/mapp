@@ -13,5 +13,15 @@
     <string name="input_password">请输入密码</string>
     <string name="title_activity_fast_login">FastLoginActivity</string>
     <string name="_fastlogin">设置快捷登录</string>
+    <string name="title_activity_flowing">流程界面</string>
+    <string name="logo">logo</string>
+    <string name="_title_nonamed">标题未定义</string>
+    <string name="chuliqian">处理签</string>
+    <string name="xiangxixinxi">详细信息</string>
+    <string name="flowing_transfer_position_one">启动</string>
+    <string name="flowing_transfer_position_two">受理</string>
+    <string name="flowing_transfer_position_three">审批</string>
+    <string name="flowing_transfer_position_four">办结</string>
+    <string name="title_activity_file_brower">文件目录管理选择器</string>
 
 </resources>

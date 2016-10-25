@@ -3,16 +3,23 @@ package com.zhao.mapp;
 import java.io.IOException;
 
 import com.zhao.mapp.http.OkHttpClientManager;
+import com.zhao.mapp.tools.ActivityManagerList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.util.LruCache;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public abstract class BaseActivity extends Activity implements View.OnClickListener{
@@ -22,6 +29,8 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//添加到全局ActivityList变量中
+		ActivityManagerList.add(this);
 		int maxMemory=(int) (Runtime.getRuntime().maxMemory()/1024);
 		int cacheSize=maxMemory/8;
 		mMemoryCache=new LruCache<String, Bitmap>(cacheSize){
@@ -117,13 +126,38 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	 * @param msg
 	 */
 	protected void showToastMsgShort(String msg){
-		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	}
 	/**
 	 * 显示提示信息
 	 * @param msg
 	 */
 	protected void showToastMsgLong(String msg){
-		Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+		Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+	}
+	/**
+	 * 按下事件
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			Intent intent=new Intent(this, MainActivity.class);
+			startActivity(intent);
+			this.finish();
+		}
+		return true;
+	}
+	/**
+	 * 设置页面头
+	 */
+	protected void setHead(String title) {
+		TextView tv_title=(TextView) this.findViewById(R.id.tv_common_head_title);
+		if(tv_title!=null){
+			tv_title.setText(title);
+		}
+		Button btn_back=(Button) this.findViewById(R.id.btn_common_head_back);
+		if(btn_back!=null){
+			btn_back.setOnClickListener(this);
+		}
 	}
 }
