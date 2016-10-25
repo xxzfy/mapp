@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_flowing_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal" >
+<TextView 
+    android:id="@+id/tv_common_foot_main"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_margin="5dp"
+    android:text="首页"
+    />
+<TextView 
+    android:id="@+id/tv_common_foot_main"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_margin="5dp"
+    android:text="待办"
+    />
+<TextView 
+    android:id="@+id/tv_common_foot_main"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_margin="5dp"
+    android:text="查询"
+    />
+<TextView 
+    android:id="@+id/tv_common_foot_main"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_margin="5dp"
+    android:text="关于"
+    />
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_common_head_second"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/black_overlay"
+    android:orientation="horizontal" >
+    <Button
+        android:id="@+id/btn_common_head_back"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawable_icon_back"
+        />
+	<TextView 
+	    android:id="@+id/tv_common_head_title"
+	    android:layout_width="0dp"
+	    android:layout_weight="1"
+	    android:layout_height="match_parent"
+	    android:layout_gravity="center"
+	    android:gravity="center"
+	    android:text="@string/_title_nonamed"
+	    />
+    
+</LinearLayout>

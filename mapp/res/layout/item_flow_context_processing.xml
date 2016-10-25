@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zhao.mapp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WHITE"
+        android:text="处理结果" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dip"
+        android:background="@color/WHITE" 
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="同意" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不同意" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WHITE"
+        android:text="处理意见" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dip"
+        android:background="@color/WHITE"
+        android:hint="请输入处理意见"
+        android:minHeight="100dip"
+        android:singleLine="false"
+        android:text="" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WHITE"
+        android:text="处理人签字确认" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="152dip"
+        android:orientation="horizontal" >
+
+        <com.zhao.mapp.tools.SignView
+            android:id="@+id/sv_item_flow_context_proc_sign"
+            android:layout_width="290dip"
+            android:layout_height="150dip"
+            android:layout_margin="1dip"
+            app:background_color="@color/WHITE"
+            app:brush_color="@color/RED"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dip"
+            android:layout_marginTop="1dip"
+            android:layout_marginEnd="1dip"
+            android:layout_marginBottom="1dip"
+            android:background="@color/WHITE"
+            android:orientation="vertical"
+             >
+            <Button
+	            android:id="@+id/btn_item_flow_context_proc_sign_clear"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="清除" />
+            <Button
+	            android:id="@+id/btn_item_flow_context_proc_sign_saveother"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="5dip"
+	            android:text="另存" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/WHITE"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="100dip"
+            android:layout_height="50dip"
+            android:text="退回" />
+
+        <Button
+            android:layout_width="100dip"
+            android:layout_height="50dip"
+            android:layout_marginLeft="40dip"
+            android:text="保存" />
+
+        <Button
+            android:layout_width="100dip"
+            android:layout_height="50dip"
+            android:layout_marginLeft="40dip"
+            android:text="发送" />
+    </LinearLayout>
+
+</LinearLayout>
