@@ -3,7 +3,7 @@
     android:id="@+id/ll_common_head_second"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/black_overlay"
+    android:background="@color/BLACK"
     android:orientation="horizontal" >
     <Button
         android:id="@+id/btn_common_head_back"
