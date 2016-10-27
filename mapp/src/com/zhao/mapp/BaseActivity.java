@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.zhao.mapp.http.OkHttpClientManager;
 import com.zhao.mapp.tools.ActivityManagerList;
+import com.zhao.mapp.tools.MyDialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -26,6 +28,8 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	protected String TAG="BaseActivity";
 	protected LruCache<String, Bitmap> mMemoryCache;
 	protected ProgressBar pb;
+	protected MyDialog mDialog;
+	protected Handler mHandler=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,11 +46,60 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 			
 		};
 		pb=new ProgressBar(this);
+		mHandler=setMHandler();
+	}
+	/**
+	 * 显示自定义选择对话框
+	 * @param contextid R.layout.dialog_my_choise
+	 * @param title
+	 * @param msg
+	 * @param what
+	 */
+	public void showMyChoiseDialog(int contextid,String title,String msg,int what) {
+		final int mWhat=what;
+		if(mDialog==null){
+			mDialog=new MyDialog(this, R.style.MyDialog,new MyDialog.MyDialogListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if(v.getId()==R.id.tv_dialog_ok){
+						mDialog.dismiss();
+						//如果存在handler则向handler发送消息
+						if(mHandler!=null){
+							mHandler.sendEmptyMessage(mWhat);
+						}
+					}
+					mDialog.dismiss();
+				}
+			});
+		}
+		mDialog.setContentView(contextid);
+		TextView tv_dialog_my_title=(TextView) mDialog.findViewById(R.id.tv_dialog_my_title);
+		TextView tv_dialog_my_msg=(TextView) mDialog.findViewById(R.id.tv_dialog_my_msg);
+		if(title!=null&&!"".equals(title)){
+			tv_dialog_my_title.setText(title);
+		}
+		if(msg!=null&&!"".equals(msg)){
+			tv_dialog_my_msg.setText(msg);
+		}
+		mDialog.show();
+	}
+	
+	public void closeMyChoiseDialog(){
+		if(mDialog==null&&mDialog.isShowing()){
+			mDialog.dismiss();
+		}
 	}
 	/**
 	 * 绑定事件
 	 */
 	protected abstract void initEvent();
+	/**
+	 * 设置对话框处理类
+	 * @return
+	 */
+	protected abstract Handler setMHandler();
+	
 	protected void displayNetImage(ImageView iv,String url){
 		Bitmap bmap=mMemoryCache.get(url);
 		if(bmap==null){
@@ -160,4 +213,5 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 			btn_back.setOnClickListener(this);
 		}
 	}
+	
 }

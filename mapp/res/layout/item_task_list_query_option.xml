@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/GREEN"
+    android:orientation="vertical"
+    android:padding="1dip" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="受理编号" />
+
+        <EditText
+            android:id="@+id/et_item_task_query_option_accept_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical"
+            android:hint="请输入受理编号" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="申报单位" />
+
+        <EditText
+            android:id="@+id/et_item_task_query_option_request_unit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical"
+            android:hint="请输入申报单位" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="设备注册代码" />
+
+        <EditText
+            android:id="@+id/et_item_task_query_option_se_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical"
+            android:hint="请输入注册代码" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="使用单位" />
+
+        <EditText
+            android:id="@+id/et_item_task_query_option_use_unit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical"
+            android:hint="请输入使用单位" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="报告编号" />
+
+        <EditText
+            android:id="@+id/et_item_task_query_option_test_book_num"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical"
+            android:hint="请输入报告编号" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="检验组长" />
+
+        <EditText
+            android:id="@+id/et_item_task_query_option_leader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical"
+            android:hint="请输入检验组长" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="当前环节" />
+
+        <com.zhao.mapp.tools.FlowRadioGroup
+            android:id="@+id/rg_item_task_query_option_current_step"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical" >
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="业务主任分配" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="业务院领导分配" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="检验主任业务处理" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方案制订" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方案审核" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方案审批" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="报告制订" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="报告审核" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="报告审批" />
+        </com.zhao.mapp.tools.FlowRadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="设备类型" />
+
+        <com.zhao.mapp.tools.FlowRadioGroup
+            android:id="@+id/rg_item_task_query_option_se_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical" >
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="锅炉" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="固定式压力容器" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="移动式压力容器" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="气瓶" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="压力管道" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电梯" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="起重机械" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="客运索道" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="游乐设施" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="厂内机动车辆" />
+        </com.zhao.mapp.tools.FlowRadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="100dip"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center"
+            android:text="检验类型" />
+
+        <com.zhao.mapp.tools.FlowRadioGroup
+            android:id="@+id/rg_item_task_query_option_examin_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/TRANSPARENT_WHITE"
+            android:gravity="center_vertical" >
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="定期检验" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="安装检验" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="制造检验" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="委托检验" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="监督检验" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="验收检验" />
+        </com.zhao.mapp.tools.FlowRadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_item_task_list_query_option_sub"
+            android:layout_width="200dip"
+            android:layout_height="40dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dip"
+            android:background="@color/WHITE"
+            android:gravity="center"
+            android:text="查询" />
+    </LinearLayout>
+
+</LinearLayout>

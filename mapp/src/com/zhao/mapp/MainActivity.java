@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -181,6 +182,11 @@ public class MainActivity extends BaseActivity{
 			}).create().show();
 		}
 		return true;
+	}
+	@Override
+	protected Handler setMHandler() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

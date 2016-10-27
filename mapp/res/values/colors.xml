@@ -3,18 +3,20 @@
 	<!-- 实体色 -->
     <color name="DARK">#ff555555</color>
     <color name="LIGHT">#ffaaaaaa</color>
-    <color name="black_overlay">#ff000000</color>
+    <color name="BLACK">#ff000000</color>
 	<color name="BLUE">#ff0000aa</color>
     <color name="RED">#ffaa0000</color>
     <color name="GREEN">#ff00aa00</color>
     <color name="WHITE">#ffeeeeee</color>
+    <color name="LIGHT_GREY">#ffaaaaaa</color>
     <!-- 透明色 -->
     <color name="TRANSPARENT_DARK">#dd555555</color>
     <color name="TRANSPARENT_LIGHT">#ddaaaaaa</color>
-    <color name="TRANSPARENT_black_overlay">#dd000000</color>
+    <color name="TRANSPARENT_BLACK">#dd000000</color>
 	<color name="TRANSPARENT_BLUE">#dd0000aa</color>
     <color name="TRANSPARENT_RED">#ddaa0000</color>
     <color name="TRANSPARENT_GREEN">#dd00aa00</color>
     <color name="TRANSPARENT_WHITE">#ddeeeeee</color>
+    <color name="TRANSPARENT_LIGHT_GREY">#ddaaaaaa</color>
     
 </resources>

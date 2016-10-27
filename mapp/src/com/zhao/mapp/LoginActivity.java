@@ -6,6 +6,7 @@ import com.zhao.mapp.ioc.view.annotation.ViewInject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,6 +95,12 @@ public class LoginActivity extends BaseActivity {
 		Intent nextintent=new Intent(LoginActivity.this, MainActivity.class);
 		startActivity(nextintent);
 		LoginActivity.this.finish();
+	}
+
+	@Override
+	protected Handler setMHandler() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

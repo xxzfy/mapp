@@ -44,6 +44,10 @@
             android:name=".FileBrowerActivity"
             android:label="@string/title_activity_file_brower" >
         </activity>
+        <activity
+            android:name=".TaskListActivity"
+            android:label="@string/title_activity_task_list" >
+        </activity>
     </application>
 
 </manifest>

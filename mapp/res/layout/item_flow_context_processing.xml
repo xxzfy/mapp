@@ -98,17 +98,20 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/item_flow_context_prpcessing_back"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:text="退回" />
 
         <Button
+            android:id="@+id/item_flow_context_prpcessing_save"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:layout_marginLeft="40dip"
             android:text="保存" />
 
         <Button
+            android:id="@+id/item_flow_context_prpcessing_send"
             android:layout_width="100dip"
             android:layout_height="50dip"
             android:layout_marginLeft="40dip"

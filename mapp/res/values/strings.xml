@@ -23,5 +23,6 @@
     <string name="flowing_transfer_position_three">审批</string>
     <string name="flowing_transfer_position_four">办结</string>
     <string name="title_activity_file_brower">文件目录管理选择器</string>
+    <string name="title_activity_task_list">任务列表</string>
 
 </resources>

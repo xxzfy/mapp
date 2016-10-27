@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_task_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="40dip"
+    android:background="@color/BLUE"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <CheckBox
+        android:layout_width="30dip"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="1dip"
+        android:background="@color/WHITE"
+        android:checked="false"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_task_list_item1"
+        android:layout_width="130dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="GD2016072700601" />
+
+    <TextView
+        android:id="@+id/tv_task_list_item2"
+        android:layout_width="160dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="北京清大华创（日照）科技孵化器置业有限公司 " />
+
+    <TextView
+        android:id="@+id/tv_task_list_item3"
+        android:layout_width="110dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="移动式压力容器 " />
+
+    <TextView
+        android:id="@+id/tv_task_list_item4"
+        android:layout_width="80dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="定期检验 " />
+
+    <TextView
+        android:id="@+id/tv_task_list_item5"
+        android:layout_width="160dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="30103711012010100001" />
+
+    <TextView
+        android:id="@+id/tv_task_list_item6"
+        android:layout_width="160dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="北京清大华创（日照）科技孵化器置业有限公司 " />
+
+    <TextView
+        android:id="@+id/tv_task_list_item7"
+        android:layout_width="160dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="自动扶梯与自动人行道定期检验报告 " />
+
+    <TextView
+        android:id="@+id/tv_task_list_item8"
+        android:layout_width="120dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="RZ-DTD-2016-6838" />
+
+    <TextView
+        android:id="@+id/tv_task_list_item9"
+        android:layout_width="60dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="魏万军" />
+
+    <TextView
+        android:id="@+id/tv_task_list_item10"
+        android:layout_width="60dip"
+        android:layout_height="38dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="1dip"
+        android:background="@color/TRANSPARENT_WHITE"
+        android:gravity="center"
+        android:text="检验主任业务处理" />
+
+</LinearLayout>

@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -202,5 +203,10 @@ public class FileBrowerActivity extends BaseActivity {
 			}
 			return false;
 		}
+	}
+	@Override
+	protected Handler setMHandler() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

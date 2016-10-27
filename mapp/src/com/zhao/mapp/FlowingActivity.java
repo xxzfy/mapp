@@ -30,6 +30,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
@@ -47,12 +49,20 @@ public class FlowingActivity extends BaseActivity {
 	private LinearLayout ll_flowing_first_tab;
 	@ViewInject(value=R.id.fl_flowing_context)
 	private FrameLayout fl_flowing_context;
+	
 	//签名域
 	private SignView sv_item_flow_context_proc_sign;
 	//清除
 	private Button btn_item_flow_context_proc_sign_clear;
 	//另存签名图片
 	private Button btn_item_flow_context_proc_sign_saveother;
+	//退回
+	private Button item_flow_context_prpcessing_back;
+	//保存
+	private Button item_flow_context_prpcessing_save;
+	//发送
+	private Button item_flow_context_prpcessing_send;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -127,6 +137,31 @@ public class FlowingActivity extends BaseActivity {
 	}
 	@Override
 	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_item_flow_context_proc_sign_clear:
+			if(sv_item_flow_context_proc_sign!=null){
+				sv_item_flow_context_proc_sign.clear();
+			}
+			break;
+		case R.id.btn_item_flow_context_proc_sign_saveother:
+			Intent pathintent=new Intent(FlowingActivity.this,FileBrowerActivity.class);
+			startActivityForResult(pathintent, 1);
+			break;
+		case R.id.item_flow_context_prpcessing_back:
+			showMyChoiseDialog(R.layout.dialog_my_choise, "温馨提示", "确定要退回吗？",1 );
+			break;
+		case R.id.item_flow_context_prpcessing_save:
+			showMyChoiseDialog(R.layout.dialog_my_ing, "温馨提示", "正在存档请稍后...",3 );
+			break;
+		case R.id.item_flow_context_prpcessing_send:
+			showMyChoiseDialog(R.layout.dialog_my_choise, "温馨提示", "确定要发送吗？",2 );
+			break;
+		default:
+			break;
+		}
+		
+		
+		
 		TextView tv=(TextView) v;
 		String text=tv.getText().toString();
 		if("处理签".equals(text)){
@@ -136,23 +171,15 @@ public class FlowingActivity extends BaseActivity {
 			sv_item_flow_context_proc_sign=(SignView)clq.findViewById(R.id.sv_item_flow_context_proc_sign);
 			btn_item_flow_context_proc_sign_clear=(Button)clq.findViewById(R.id.btn_item_flow_context_proc_sign_clear);
 			btn_item_flow_context_proc_sign_saveother=(Button) clq.findViewById(R.id.btn_item_flow_context_proc_sign_saveother);
-			btn_item_flow_context_proc_sign_clear.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					if(sv_item_flow_context_proc_sign!=null){
-						sv_item_flow_context_proc_sign.clear();
-					}
-				}
-			});
-			btn_item_flow_context_proc_sign_saveother.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Intent pathintent=new Intent(FlowingActivity.this,FileBrowerActivity.class);
-					startActivityForResult(pathintent, 1);
-				}
-			});
+			item_flow_context_prpcessing_back=(Button) clq.findViewById(R.id.item_flow_context_prpcessing_back);
+			item_flow_context_prpcessing_save=(Button) clq.findViewById(R.id.item_flow_context_prpcessing_save);
+			item_flow_context_prpcessing_send=(Button) clq.findViewById(R.id.item_flow_context_prpcessing_send);
+			btn_item_flow_context_proc_sign_clear.setOnClickListener(FlowingActivity.this);
+			btn_item_flow_context_proc_sign_saveother.setOnClickListener(FlowingActivity.this);
+			item_flow_context_prpcessing_back.setOnClickListener(FlowingActivity.this);
+			item_flow_context_prpcessing_save.setOnClickListener(FlowingActivity.this);
+			item_flow_context_prpcessing_send.setOnClickListener(FlowingActivity.this);
+			
 		}else if("详细信息".equals(text)){
 			sv_item_flow_context_proc_sign=null;
 			btn_item_flow_context_proc_sign_clear=null;
@@ -297,4 +324,25 @@ public class FlowingActivity extends BaseActivity {
 			}
 		}
 	}
+	@Override
+	protected Handler setMHandler() {
+		return new Handler(getMainLooper()){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case 1://对话框点击了确定的操作
+					showToastMsgShort("退回成功！");
+					break;
+				case 2:
+					showToastMsgShort("退回成功！");
+				case 3:
+					showToastMsgShort("保存完成!");
+					
+				default:
+					break;
+				}
+			}
+		};
+	}
+	
 }

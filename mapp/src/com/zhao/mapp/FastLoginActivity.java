@@ -1,6 +1,7 @@
 package com.zhao.mapp;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +101,11 @@ public class FastLoginActivity extends BaseActivity{
 
 		}
 		
+	}
+	@Override
+	protected Handler setMHandler() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
