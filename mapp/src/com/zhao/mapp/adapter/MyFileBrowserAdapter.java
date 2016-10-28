@@ -56,7 +56,7 @@ public class MyFileBrowserAdapter extends BaseAdapter {
 		if(position==selectItem){//选中的
 			convertView.setBackgroundResource(R.drawable.bg_blue);
 		}else{
-			convertView.setBackgroundResource(R.drawable.bg_item_white_blue);
+			convertView.setBackgroundResource(R.drawable.bg_item_blue);
 		}
 		
 		return convertView;

@@ -34,6 +34,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
@@ -344,5 +345,16 @@ public class FlowingActivity extends BaseActivity {
 			}
 		};
 	}
-	
+	/**
+	 * 按下事件
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode==KeyEvent.KEYCODE_BACK){
+			Intent intent=new Intent(this, TaskListActivity.class);
+			startActivity(intent);
+			this.finish();
+		}
+		return true;
+	}
 }

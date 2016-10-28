@@ -34,11 +34,6 @@
         <activity
             android:name=".FlowingActivity"
             android:label="@string/title_activity_flowing" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".FileBrowerActivity"
@@ -47,6 +42,11 @@
         <activity
             android:name=".TaskListActivity"
             android:label="@string/title_activity_task_list" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

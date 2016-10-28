@@ -48,7 +48,7 @@ public class TaskAdapter extends BaseAdapter {
 		TaskModel model=list.get(position);
 		convertView=mActivity.getLayoutInflater().inflate(R.layout.item_task_list, null);
 		CheckBox cb=(CheckBox) convertView.findViewById(R.id.tv_task_list_item0);
-		TextView[] tv=new TextView[10];
+		TextView[] tv=new TextView[11];
 		tv[1]=(TextView) convertView.findViewById(R.id.tv_task_list_item1);
 		tv[1].setText(model.getSe_accept_code());
 		tv[2]=(TextView) convertView.findViewById(R.id.tv_task_list_item2);
@@ -81,9 +81,9 @@ public class TaskAdapter extends BaseAdapter {
 			if(mShowflag[i]){
 				tv[i].setVisibility(View.VISIBLE);
 				if(u==1){
-					tv[i].setBackgroundResource(R.color.TRANSPARENT_LIGHT);
+					tv[i].setBackgroundResource(R.drawable.bg_item_white);
 				}else{
-					tv[i].setBackgroundResource(R.color.TRANSPARENT_WHITE);
+					tv[i].setBackgroundResource(R.drawable.bg_item_blue);
 				}
 			}else{
 				tv[i].setVisibility(View.GONE);

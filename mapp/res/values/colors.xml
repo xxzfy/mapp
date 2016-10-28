@@ -9,6 +9,7 @@
     <color name="GREEN">#ff00aa00</color>
     <color name="WHITE">#ffeeeeee</color>
     <color name="LIGHT_GREY">#ffaaaaaa</color>
+    <color name="LIGHT_BLUE">#3dbef1</color>
     <!-- 透明色 -->
     <color name="TRANSPARENT_DARK">#dd555555</color>
     <color name="TRANSPARENT_LIGHT">#ddaaaaaa</color>
@@ -18,5 +19,6 @@
     <color name="TRANSPARENT_GREEN">#dd00aa00</color>
     <color name="TRANSPARENT_WHITE">#ddeeeeee</color>
     <color name="TRANSPARENT_LIGHT_GREY">#ddaaaaaa</color>
+    <color name="TRANSPARENT_LIGHT_BLUE">#dd3dbef1</color>
     
 </resources>
