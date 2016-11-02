@@ -61,9 +61,15 @@ public class MyDialog extends Dialog implements View.OnClickListener {
 	protected void onStart() {
 		TextView tv_dialog_cancel = (TextView) findViewById(R.id.tv_dialog_cancel);
 		TextView tv_dialog_ok = (TextView) findViewById(R.id.tv_dialog_ok);
-		if (tv_dialog_cancel != null && tv_dialog_ok != null) {
+		ImageView iv_close=(ImageView) findViewById(R.id.iv_dialog_close);
+		if (tv_dialog_cancel != null) {
 			tv_dialog_cancel.setOnClickListener(this);
+		}
+		if (tv_dialog_ok != null) {
 			tv_dialog_ok.setOnClickListener(this);
+		}
+		if(iv_close!=null){
+			iv_close.setOnClickListener(this);
 		}
 		ImageView iv = (ImageView) findViewById(R.id.iv_dialog_img);
 		if (iv != null) {

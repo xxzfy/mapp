@@ -1,18 +1,28 @@
 package com.zhao.mapp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.zhao.mapp.adapter.TaskAdapter;
+import com.zhao.mapp.http.OkHttpClientManager;
 import com.zhao.mapp.ioc.view.ViewInjectUtils;
 import com.zhao.mapp.ioc.view.annotation.ContentView;
 import com.zhao.mapp.ioc.view.annotation.ViewInject;
-import com.zhao.mapp.testdata.TestData;
+import com.zhao.mapp.model.TaskModel;
 import com.zhao.mapp.tools.FlowRadioGroup;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -100,7 +110,7 @@ public class TaskListActivity extends BaseActivity {
 	
 	private LinkedList<RadioGroup> optionlist=new LinkedList<RadioGroup>();
 	/** 各列是否显示*/
-	private boolean[] showflag=new boolean[]{false,true,true,true,true,true,false,false,false,false,false};
+	private boolean[] showflag=new boolean[]{true,true,true,true,true,true,true,true,true,true,true};
 	//查询条件
 	private String se_accept_code;//设备受理编号
 	private String unit_name;//申报单位
@@ -115,6 +125,10 @@ public class TaskListActivity extends BaseActivity {
 	private TaskAdapter ta;
 	private Animation anim_in;
 	private Animation anim_out;
+	
+	private List<TaskModel> tasklist=null;
+	
+	private Handler mhandler=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,8 +137,20 @@ public class TaskListActivity extends BaseActivity {
 		//绑定事件
 		initEvent();
 		ta=new TaskAdapter(this);
-		//显示测试数据
-		toShow();
+		mhandler=new Handler(getMainLooper()){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case 1:
+					toShow();
+					break;
+
+				default:
+					break;
+				}
+			}
+			
+		};
 		
 	}
 
@@ -179,12 +205,13 @@ public class TaskListActivity extends BaseActivity {
 	 */
 	private void toShow() {
 		//先隐藏设置界面
-		if(fl_show_flag){
+		if(fl_show_flag||fl_query_flag){
 			fl_show_flag=false;
+			fl_query_flag=false;
 			hidOption();
 		}
 		//如果已设置显示列则按设置显示，如果没设置按默认显示
-		if (optionlist!=null) {
+		if (optionlist!=null||!optionlist.isEmpty()) {
 			for (int i = 0; i < optionlist.size(); i++) {
 				RadioGroup rg = optionlist.get(i);
 				RadioButton rb= (RadioButton) rg.getChildAt(0);
@@ -204,7 +231,7 @@ public class TaskListActivity extends BaseActivity {
 			
 		}
 		ta.setmShowflag(showflag);
-		ta.setList(TestData.getTaskData());
+		ta.setList(tasklist);
 		lv_task_list_list.setAdapter(ta);
 		ta.notifyDataSetChanged();
 		
@@ -223,7 +250,23 @@ public class TaskListActivity extends BaseActivity {
 		se_type         =((RadioButton) rg_item_task_query_option_se_type.findViewById(rg_item_task_query_option_se_type.getCheckedRadioButtonId())).getText().toString();
 		apply_type     =((RadioButton) rg_item_task_query_option_examin_type.findViewById(rg_item_task_query_option_examin_type.getCheckedRadioButtonId())).getText().toString();
 		//查询
-		//todo
+		OkHttpClientManager.asyncGet("http://192.168.0.103", new Callback() {
+			
+			@Override
+			public void onResponse(Response response) throws IOException {
+				String msg=response.body().string();
+				JSONObject json=JSONObject.parseObject(msg);
+				JSONArray jsonarray= json.getJSONArray("list");
+				tasklist= JSONArray.parseArray(jsonarray.toJSONString(), TaskModel.class);
+				mhandler.sendEmptyMessage(1);
+			}
+			
+			@Override
+			public void onFailure(Request request, IOException e) {
+				Log.e(TAG, "查询失败", e);
+				
+			}
+		});
 	}
 	
 	/**
@@ -383,17 +426,17 @@ public class TaskListActivity extends BaseActivity {
 	protected void initEvent() {
 		tv_task_list_tool_query.setOnClickListener(this);
 		tv_task_list_tool_show.setOnClickListener(this);
-		lv_task_list_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent=new Intent(TaskListActivity.this, FlowingActivity.class);
-				intent.putExtra("annalid", "123123");
-				TaskListActivity.this.startActivity(intent);
-				TaskListActivity.this.finish();
-			}
-		});
+//		lv_task_list_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Intent intent=new Intent(TaskListActivity.this, FlowingActivity.class);
+//				intent.putExtra("annalid", "123123");
+//				TaskListActivity.this.startActivity(intent);
+//				TaskListActivity.this.finish();
+//			}
+//		});
 	}
+	
 
 	@Override
 	protected Handler setMHandler() {

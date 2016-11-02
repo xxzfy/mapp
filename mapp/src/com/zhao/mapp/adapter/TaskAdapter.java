@@ -2,10 +2,13 @@ package com.zhao.mapp.adapter;
 
 import java.util.List;
 
+import com.zhao.mapp.FlowingActivity;
 import com.zhao.mapp.R;
+import com.zhao.mapp.TaskListActivity;
 import com.zhao.mapp.model.TaskModel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -89,6 +92,19 @@ public class TaskAdapter extends BaseAdapter {
 				tv[i].setVisibility(View.GONE);
 			}
 		}
+		
+		convertView.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(mActivity, FlowingActivity.class);
+				intent.putExtra("annalid", "123123");
+				mActivity.startActivity(intent);
+				mActivity.finish();
+				
+			}
+		});
+		
 		return convertView;
 	}
 	public void setList(List<TaskModel> list) {

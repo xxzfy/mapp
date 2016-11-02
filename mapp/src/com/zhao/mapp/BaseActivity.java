@@ -69,6 +69,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 							mHandler.sendEmptyMessage(mWhat);
 						}
 					}
+					
 					mDialog.dismiss();
 				}
 			});

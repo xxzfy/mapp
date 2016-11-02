@@ -156,12 +156,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/TRANSPARENT_WHITE"
+            android:checkedButton="@+id/rb_item_task_query_option_current_step_def"
             android:gravity="center_vertical" >
 
             <RadioButton
+                android:id="@+id/rb_item_task_query_option_current_step_def"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="业务主任分配" />
+                android:text="业务主任分配"
+                />
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -223,12 +226,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/TRANSPARENT_WHITE"
+            android:checkedButton="@+id/rb_item_task_query_option_se_type_def"
             android:gravity="center_vertical" >
 
             <RadioButton
+                android:id="@+id/rb_item_task_query_option_se_type_def"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="锅炉" />
+                android:text="锅炉"
+                />
 
             <RadioButton
                 android:layout_width="wrap_content"
@@ -295,12 +301,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/TRANSPARENT_WHITE"
+            android:checkedButton="@+id/rb_item_task_query_option_examin_type_def"
             android:gravity="center_vertical" >
 
             <RadioButton
+                android:id="@+id/rb_item_task_query_option_examin_type_def"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="定期检验" />
+                android:text="定期检验"
+                />
 
             <RadioButton
                 android:layout_width="wrap_content"
