@@ -2,6 +2,7 @@ package com.zhao.mapp;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import okio.HashingSink;
 @ContentView(value=R.layout.activity_task_list)
 public class TaskListActivity extends BaseActivity {
 	
@@ -118,7 +120,7 @@ public class TaskListActivity extends BaseActivity {
 	private String use_unit;//使用单位
 	private String test_book_num;//报告编号
 	private String test_leader;//检验组长姓名
-	private String current_step;//当前环节
+	private String process;//当前环节
 	private String se_type;//设备类别
 	private String apply_type;//检验类别
 	
@@ -244,13 +246,28 @@ public class TaskListActivity extends BaseActivity {
 		unit_name    =et_item_task_query_option_request_unit .getText().toString();
 		se_code         =et_item_task_query_option_se_code      .getText().toString();
 		use_unit        =et_item_task_query_option_use_unit     .getText().toString();
-		test_book_num   =et_item_task_query_option_test_book_num.getText().toString();
 		test_leader          =et_item_task_query_option_leader       .getText().toString();
-		current_step    =((RadioButton) rg_item_task_query_option_current_step.findViewById(rg_item_task_query_option_current_step.getCheckedRadioButtonId())).getText().toString();
+		process    =((RadioButton) rg_item_task_query_option_current_step.findViewById(rg_item_task_query_option_current_step.getCheckedRadioButtonId())).getText().toString();
 		se_type         =((RadioButton) rg_item_task_query_option_se_type.findViewById(rg_item_task_query_option_se_type.getCheckedRadioButtonId())).getText().toString();
 		apply_type     =((RadioButton) rg_item_task_query_option_examin_type.findViewById(rg_item_task_query_option_examin_type.getCheckedRadioButtonId())).getText().toString();
+		test_book_num   =et_item_task_query_option_test_book_num.getText().toString();
+		
+		HashMap<String, String> params=new HashMap<String, String>();
+		//--------方法名--------------------
+		params.put("method", "tasklist");
+		//---------参数--------------------
+		params.put("se_accept_code", se_accept_code);
+		params.put("unit_name", unit_name);
+		params.put("se_code", se_code);
+		params.put("use_unit", use_unit);
+		params.put("test_book_num", test_book_num);
+		params.put("test_leader", test_leader);
+		params.put("se_type", se_type);
+		params.put("apply_type", apply_type);
+		params.put("process",process );
+		
 		//查询
-		OkHttpClientManager.asyncGet("http://192.168.0.103", new Callback() {
+		OkHttpClientManager.asyncPostParams("http://192.168.0.103:9081/sdjyserver/business?method=tasklist",params, new Callback() {
 			
 			@Override
 			public void onResponse(Response response) throws IOException {
