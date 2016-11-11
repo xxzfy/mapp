@@ -50,9 +50,9 @@ public class OkHttpClientManager {
 		Cache cache = new Cache(cacheDirectory, cachesize);
 		client.setCache(cache);
 		// 设置超时时间
-		client.setConnectTimeout(10, TimeUnit.SECONDS);
-		client.setReadTimeout(30, TimeUnit.SECONDS);
-		client.setWriteTimeout(10, TimeUnit.SECONDS);
+		client.setConnectTimeout(100, TimeUnit.SECONDS);
+		client.setReadTimeout(300, TimeUnit.SECONDS);
+		client.setWriteTimeout(100, TimeUnit.SECONDS);
 	}
 
 	public static OkHttpClientManager getInstance() {

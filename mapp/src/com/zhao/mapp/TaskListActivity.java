@@ -1,13 +1,13 @@
 package com.zhao.mapp;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -19,15 +19,14 @@ import com.zhao.mapp.ioc.view.annotation.ViewInject;
 import com.zhao.mapp.model.TaskModel;
 import com.zhao.mapp.tools.FlowRadioGroup;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -37,7 +36,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import okio.HashingSink;
 @ContentView(value=R.layout.activity_task_list)
 public class TaskListActivity extends BaseActivity {
 	
@@ -265,17 +263,71 @@ public class TaskListActivity extends BaseActivity {
 		params.put("se_type", se_type);
 		params.put("apply_type", apply_type);
 		params.put("process",process );
+		Log.i("AA", "start:"+new Date().getTime());
 		
+//			new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					Looper.prepare();
+//					try {
+//						URL url=new URL("http://192.168.0.103:8080/sdjyserver/async");
+//						HttpURLConnection conn=(HttpURLConnection) url.openConnection();
+//						conn.setDoInput(true);
+//						conn.setDoOutput(true);
+//						conn.setConnectTimeout(30000);
+//						conn.setReadTimeout(30000);
+//						conn.setUseCaches(false);
+//						//设定传送的内容类型是可序列化的java对象
+//						conn.setRequestProperty("Content-type", "application/x-java-serialized-object");
+//						conn.setRequestMethod("POST");
+//						OutputStream os = conn.getOutputStream();
+//						byte[] sendData = "username=admin".getBytes("UTF-8");
+//						os.write(sendData);// 将post数据发出去
+//						os.flush();
+//						int len=0;
+//						byte[] buff=new byte[1024];
+//						ByteArrayOutputStream bos=new ByteArrayOutputStream();
+//						if(conn.getResponseCode()==200){
+//							InputStream is=conn.getInputStream();
+//							while((len=is.read(buff))>-1){
+//								bos.write(buff,0,len);
+//							}
+//							String msg=bos.toString();
+//							Log.i(TAG, msg);
+//						}
+//						
+//					} catch (Exception e) {
+//						Log.i(TAG, "网络连接失败，请确认是否已脸上Intent网");
+//						e.printStackTrace();
+//					}
+//					
+//					Looper.loop();
+//				}
+//			}).start();
+//		
 		//查询
-		OkHttpClientManager.asyncPostParams("http://192.168.0.103:9081/sdjyserver/business?method=tasklist",params, new Callback() {
+		OkHttpClientManager.asyncPostParams("http://192.168.0.103:8080/sdjyserver/async",params, new Callback() {
 			
 			@Override
 			public void onResponse(Response response) throws IOException {
-				String msg=response.body().string();
-				JSONObject json=JSONObject.parseObject(msg);
-				JSONArray jsonarray= json.getJSONArray("list");
-				tasklist= JSONArray.parseArray(jsonarray.toJSONString(), TaskModel.class);
-				mhandler.sendEmptyMessage(1);
+				Log.i("AA", response.code()+"end:"+new Date().getTime());
+				Looper.prepare();
+				if(response.isSuccessful()){
+					byte[] buff=new byte[1024];
+					int len=0;
+					ByteArrayOutputStream bos=new ByteArrayOutputStream();
+					InputStream is=response.networkResponse().body().byteStream();
+					while((len=is.read(buff))>-1){
+						bos.write(buff, 0, len);
+					}
+					String text=bos.toString();
+					Log.i("AA", text);
+//						JSONObject json=JSONObject.parseObject(text);
+//						JSONArray jsonarray= json.getJSONArray("list");
+//						tasklist= JSONArray.parseArray(jsonarray.toJSONString(), TaskModel.class);
+					mhandler.sendEmptyMessage(1);
+				}
+				Looper.loop();
 			}
 			
 			@Override
@@ -283,6 +335,7 @@ public class TaskListActivity extends BaseActivity {
 				Log.e(TAG, "查询失败", e);
 				
 			}
+			
 		});
 	}
 	

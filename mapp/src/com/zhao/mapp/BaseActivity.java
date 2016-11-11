@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public abstract class BaseActivity extends Activity implements View.OnClickListener{
-	protected String TAG="BaseActivity";
+	protected String TAG;
 	protected LruCache<String, Bitmap> mMemoryCache;
 	protected ProgressBar pb;
 	protected MyDialog mDialog;
@@ -33,6 +33,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		TAG=getClass().getName();
 		//添加到全局ActivityList变量中
 		ActivityManagerList.add(this);
 		int maxMemory=(int) (Runtime.getRuntime().maxMemory()/1024);
