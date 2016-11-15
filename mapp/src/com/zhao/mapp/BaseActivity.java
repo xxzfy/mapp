@@ -88,7 +88,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	}
 	
 	public void closeMyChoiseDialog(){
-		if(mDialog==null&&mDialog.isShowing()){
+		if(mDialog!=null&&mDialog.isShowing()){
 			mDialog.dismiss();
 		}
 	}

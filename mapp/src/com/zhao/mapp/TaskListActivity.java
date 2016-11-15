@@ -1,18 +1,20 @@
 package com.zhao.mapp;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.zhao.async.MyRunnable;
 import com.zhao.mapp.adapter.TaskAdapter;
-import com.zhao.mapp.http.OkHttpClientManager;
 import com.zhao.mapp.ioc.view.ViewInjectUtils;
 import com.zhao.mapp.ioc.view.annotation.ContentView;
 import com.zhao.mapp.ioc.view.annotation.ViewInject;
@@ -126,9 +128,7 @@ public class TaskListActivity extends BaseActivity {
 	private Animation anim_in;
 	private Animation anim_out;
 	
-	private List<TaskModel> tasklist=null;
-	
-	private Handler mhandler=null;
+	public List<TaskModel> tasklist=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -137,21 +137,7 @@ public class TaskListActivity extends BaseActivity {
 		//绑定事件
 		initEvent();
 		ta=new TaskAdapter(this);
-		mhandler=new Handler(getMainLooper()){
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case 1:
-					toShow();
-					break;
-
-				default:
-					break;
-				}
-			}
-			
-		};
-		
+		//asynctask=new NetWorkAsyncTask(this,mHandler,tasklist);
 	}
 
 	private void init() {
@@ -234,13 +220,12 @@ public class TaskListActivity extends BaseActivity {
 		ta.setList(tasklist);
 		lv_task_list_list.setAdapter(ta);
 		ta.notifyDataSetChanged();
-		
 	}
 	/**
 	 * 查询
 	 */
 	private void toQuery() {
-		se_accept_code     =et_item_task_query_option_accept_code  .getText().toString();
+		se_accept_code=et_item_task_query_option_accept_code.getText().toString();
 		unit_name    =et_item_task_query_option_request_unit .getText().toString();
 		se_code         =et_item_task_query_option_se_code      .getText().toString();
 		use_unit        =et_item_task_query_option_use_unit     .getText().toString();
@@ -264,79 +249,9 @@ public class TaskListActivity extends BaseActivity {
 		params.put("apply_type", apply_type);
 		params.put("process",process );
 		Log.i("AA", "start:"+new Date().getTime());
-		
-//			new Thread(new Runnable() {
-//				@Override
-//				public void run() {
-//					Looper.prepare();
-//					try {
-//						URL url=new URL("http://192.168.0.103:8080/sdjyserver/async");
-//						HttpURLConnection conn=(HttpURLConnection) url.openConnection();
-//						conn.setDoInput(true);
-//						conn.setDoOutput(true);
-//						conn.setConnectTimeout(30000);
-//						conn.setReadTimeout(30000);
-//						conn.setUseCaches(false);
-//						//设定传送的内容类型是可序列化的java对象
-//						conn.setRequestProperty("Content-type", "application/x-java-serialized-object");
-//						conn.setRequestMethod("POST");
-//						OutputStream os = conn.getOutputStream();
-//						byte[] sendData = "username=admin".getBytes("UTF-8");
-//						os.write(sendData);// 将post数据发出去
-//						os.flush();
-//						int len=0;
-//						byte[] buff=new byte[1024];
-//						ByteArrayOutputStream bos=new ByteArrayOutputStream();
-//						if(conn.getResponseCode()==200){
-//							InputStream is=conn.getInputStream();
-//							while((len=is.read(buff))>-1){
-//								bos.write(buff,0,len);
-//							}
-//							String msg=bos.toString();
-//							Log.i(TAG, msg);
-//						}
-//						
-//					} catch (Exception e) {
-//						Log.i(TAG, "网络连接失败，请确认是否已脸上Intent网");
-//						e.printStackTrace();
-//					}
-//					
-//					Looper.loop();
-//				}
-//			}).start();
-//		
-		//查询
-		OkHttpClientManager.asyncPostParams("http://192.168.0.103:8080/sdjyserver/async",params, new Callback() {
-			
-			@Override
-			public void onResponse(Response response) throws IOException {
-				Log.i("AA", response.code()+"end:"+new Date().getTime());
-				Looper.prepare();
-				if(response.isSuccessful()){
-					byte[] buff=new byte[1024];
-					int len=0;
-					ByteArrayOutputStream bos=new ByteArrayOutputStream();
-					InputStream is=response.networkResponse().body().byteStream();
-					while((len=is.read(buff))>-1){
-						bos.write(buff, 0, len);
-					}
-					String text=bos.toString();
-					Log.i("AA", text);
-//						JSONObject json=JSONObject.parseObject(text);
-//						JSONArray jsonarray= json.getJSONArray("list");
-//						tasklist= JSONArray.parseArray(jsonarray.toJSONString(), TaskModel.class);
-					mhandler.sendEmptyMessage(1);
-				}
-				Looper.loop();
-			}
-			
-			@Override
-			public void onFailure(Request request, IOException e) {
-				Log.e(TAG, "查询失败", e);
-				
-			}
-			
-		});
+		String urladdr="http://192.168.0.103:8080/sdjyserver/async";
+		//执行网络查询
+		new Thread(new MyRunnable(urladdr, "close", params,mHandler,1)).start();
 	}
 	
 	/**
@@ -373,12 +288,11 @@ public class TaskListActivity extends BaseActivity {
 	}
 	
 	/**
-	 * 设置显示列
+	 * 设置查询条件
 	 */
 	private void onLoadQuery() {
-		fl_query_flag=false;
-		if(fl_show_flag){
-			fl_show_flag=false;
+		if(fl_query_flag){
+			fl_query_flag=false;
 			//隐藏层
 			hidOption();
 			return;
@@ -387,6 +301,7 @@ public class TaskListActivity extends BaseActivity {
 		fl_task_list_option.removeAllViews();
 		//设置显示隐藏布局
 		fl_query_flag=true;
+		fl_show_flag=false;
 		LinearLayout ll_query= (LinearLayout) TaskListActivity.this.getLayoutInflater().inflate(R.layout.item_task_list_query_option, null);
 		TextView tv_item_task_list_query_option_sub=(TextView) ll_query.findViewById(R.id.tv_item_task_list_query_option_sub);
 		tv_item_task_list_query_option_sub.setOnClickListener(this); 
@@ -417,7 +332,6 @@ public class TaskListActivity extends BaseActivity {
 	 * 查询
 	 */
 	private void onLoadShow() {
-		fl_query_flag=false;
 		if(fl_show_flag){
 			fl_show_flag=false;
 			hidOption();
@@ -427,6 +341,7 @@ public class TaskListActivity extends BaseActivity {
 		fl_task_list_option.removeAllViews();
 		//设置显示隐藏布局
 		fl_show_flag=true;
+		fl_query_flag=false;
 		//清空
 		optionlist.clear();
 		LinearLayout ll_show= (LinearLayout) TaskListActivity.this.getLayoutInflater().inflate(R.layout.item_task_list_show_option, null);
@@ -506,11 +421,39 @@ public class TaskListActivity extends BaseActivity {
 //			}
 //		});
 	}
-	
 
 	@Override
 	protected Handler setMHandler() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Handler(getMainLooper()){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case 1:
+					String text=(String) msg.obj;
+					JSONObject json=JSONObject.parseObject(text);
+					JSONArray jsonarray= json.getJSONArray("list");
+					tasklist= JSONArray.parseArray(jsonarray.toJSONString(), TaskModel.class);
+					
+					toShow();
+					showToastMsgShort("加载完成！");
+					closeMyChoiseDialog();
+					break;
+				case 3:
+					showToastMsgShort("加载完成！");
+					break;
+
+				case 10:
+					showMyChoiseDialog(R.layout.dialog_my_ing, "温馨提示", "正在查询请稍后...",3 );
+					break;
+				case 11:
+					closeMyChoiseDialog();
+					break;
+				default:
+					break;
+				}
+			}
+			
+		};
 	}
+	
 }

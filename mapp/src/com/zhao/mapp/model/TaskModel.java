@@ -1,8 +1,13 @@
 package com.zhao.mapp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaskModel {
+public class TaskModel implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2884039025606045399L;
 	private	String	annalid;	//	系统编码
 	private	String	form_code;	//	申报单号
 	private	String	se_accept_code;	//	设备受理编号

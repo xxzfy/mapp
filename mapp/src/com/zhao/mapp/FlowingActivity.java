@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.zhao.async.MyRunnable;
 import com.zhao.mapp.adapter.DetailAdapter;
 import com.zhao.mapp.adapter.HistoryAdapter;
 import com.zhao.mapp.ioc.view.ViewInjectUtils;
@@ -63,6 +66,10 @@ public class FlowingActivity extends BaseActivity {
 	private Button item_flow_context_prpcessing_save;
 	//发送
 	private Button item_flow_context_prpcessing_send;
+	private ListView currListView;
+	private String se_id=null;
+	private DetailAdapter da=null;
+	private HistoryAdapter ha=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +82,8 @@ public class FlowingActivity extends BaseActivity {
 	private void init(Activity context) {
 		ViewInjectUtils.inject(context);
 		
-		
+		Intent intent=getIntent();
+		se_id=intent.getStringExtra("annalid");
 		
 		String[] huanjie=new String[]{"启动","受理","审查","审核","审批","办结"};
 		int curr_index=2;
@@ -135,6 +143,10 @@ public class FlowingActivity extends BaseActivity {
 		tv.setText(" 2");
 		LinearLayout.LayoutParams params1=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 		ll_flowing_first_tab.addView(tv, params1);
+		//详细信息适配器
+		da=new DetailAdapter(FlowingActivity.this);
+		//流转历史适配器
+		ha=new HistoryAdapter(FlowingActivity.this);
 	}
 	@Override
 	public void onClick(View v) {
@@ -186,7 +198,9 @@ public class FlowingActivity extends BaseActivity {
 			btn_item_flow_context_proc_sign_clear=null;
 			
 			ListView detail= (ListView) getLayoutInflater().inflate(R.layout.item_flow_context_detail_information, null);
-			setAdapter(detail);
+			//设置当前ListView
+			currListView=detail;
+			setDetailAdapter(detail);
 			fl_flowing_context.removeAllViews();
 			fl_flowing_context.addView(detail);
 		}else if("历史意见".equals(text)){
@@ -195,58 +209,55 @@ public class FlowingActivity extends BaseActivity {
 			
 			View history= getLayoutInflater().inflate(R.layout.item_flow_context_history, null);
 			ListView history_list=(ListView) history.findViewById(R.id.lv_item_flow_context_history_list);
-			HistoryAdapter adapter= new HistoryAdapter(FlowingActivity.this);
-			List<HistoryModel> histlist = setlist();
-			adapter.setList(histlist);
-			history_list.setAdapter(adapter);
-			adapter.notifyDataSetChanged();
-			
+			//设置当前ListView
+			currListView=history_list;
+			setHistoryAdapter(history_list);
 			fl_flowing_context.removeAllViews();
 			fl_flowing_context.addView(history);
 			
 		}
 		
 	}
-	private void setAdapter(ListView detail) {
-		DetailAdapter da=new DetailAdapter(FlowingActivity.this);
-		List<DetailModel> list=new ArrayList<DetailModel>();
-		DetailModel model=new DetailModel();
-		model.setId(1l);
-		model.setKey("单位名称");
-		model.setValue("山东金质信息技术有限公司");
-		list.add(model);
-		
-		DetailModel model1=new DetailModel();
-		model1.setId(1l);
-		model1.setKey("单位地址");
-		model1.setValue("济南市历下区历山路146-6号");
-		list.add(model1);
-		
-		DetailModel model2=new DetailModel();
-		model2.setId(1l);
-		model2.setKey("联系人");
-		model2.setValue("赵玉平");
-		list.add(model2);
-		
-		DetailModel model3=new DetailModel();
-		model3.setId(1l);
-		model3.setKey("联系电话");
-		model3.setValue("15865259452");
-		list.add(model3);
-		
-		DetailModel model4=new DetailModel();
-		model4.setId(1l);
-		model4.setKey("主要业务");
-		model4.setValue("电子政务、网站建设、条码扫描设备等");
-		list.add(model4);
-		
+	private void setDetailAdapter(ListView detail) {
+		String urladdr="http://192.168.0.103:8080/sdjyserver/async";
+		HashMap<String, String> params=new HashMap<String, String>();
+		params.put("method", "flowdetail");
+		params.put("se_id", se_id);
+		new Thread(new MyRunnable(urladdr, "close", params, mHandler, 21)).start();
+	}
+	private void setHistoryAdapter(ListView history) {
+		String urladdr="http://192.168.0.103:8080/sdjyserver/async";
+		HashMap<String, String> params=new HashMap<String, String>();
+		params.put("method", "flowhistory");
+		params.put("se_id", se_id);
+		new Thread(new MyRunnable(urladdr, "close", params, mHandler, 22)).start();
+	}
+	/**
+	 * 设置详细信息
+	 * @param detail
+	 * @param da
+	 * @param list
+	 */
+	public void setDetailInfo(ListView listView, DetailAdapter da, List<DetailModel> list) {
 		da.setList(list);
-		detail.setAdapter(da);
+		listView.setAdapter(da);
 		da.notifyDataSetChanged();
+	}
+	 /**
+	  * 设置历史信息
+	  * @param listView
+	  * @param ha
+	  * @param list
+	  */
+	public void setHistroy(ListView listView, HistoryAdapter ha, List<HistoryModel> list) {
+		ha.setList(list);
+		listView.setAdapter(ha);
+		ha.notifyDataSetChanged();
 	}
 	/**
 	 * @return
 	 */
+	@Deprecated
 	public List<HistoryModel> setlist() {
 		List<HistoryModel> histlist=new ArrayList<HistoryModel>();
 		HistoryModel historymodel=new HistoryModel();
@@ -336,9 +347,24 @@ public class FlowingActivity extends BaseActivity {
 					break;
 				case 2:
 					showToastMsgShort("退回成功！");
+					break;
 				case 3:
 					showToastMsgShort("保存完成!");
-					
+					break;
+				case 21:
+					String text=(String) msg.obj;
+					if(text!=null&&text.length()>0){
+						List<DetailModel> list=JSON.parseArray(text, DetailModel.class);
+						setDetailInfo(currListView, da, list);
+					}
+					break;
+				case 22:
+					String history=(String) msg.obj;
+					if(history!=null&&history.length()>0){
+						List<HistoryModel> list=JSON.parseArray(history, HistoryModel.class);
+						setHistroy(currListView, ha, list);
+					}
+					break;
 				default:
 					break;
 				}

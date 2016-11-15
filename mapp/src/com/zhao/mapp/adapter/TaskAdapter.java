@@ -48,7 +48,7 @@ public class TaskAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		TaskModel model=list.get(position);
+		final TaskModel model=list.get(position);
 		convertView=mActivity.getLayoutInflater().inflate(R.layout.item_task_list, null);
 		CheckBox cb=(CheckBox) convertView.findViewById(R.id.tv_task_list_item0);
 		TextView[] tv=new TextView[11];
@@ -98,7 +98,7 @@ public class TaskAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Intent intent=new Intent(mActivity, FlowingActivity.class);
-				intent.putExtra("annalid", "123123");
+				intent.putExtra("annalid",model.getAnnalid());
 				mActivity.startActivity(intent);
 				mActivity.finish();
 				
